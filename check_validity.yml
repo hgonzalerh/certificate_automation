@@ -34,14 +34,12 @@
       ansible.builtin.set_fact:
         ssl_results: >-
           {{
-          (ssl_results | default([])) +
-          [
-          {
-            'hostname': sites[ansible_loop.index0],
-            'notAfter': item.stdout,
-            'remainingSeconds': item.stdout | int - ansible_facts.date_time.epoch | int
-          }
-          ]
+            (ssl_results | default([])) +
+            [{
+              'hostname': sites[ansible_loop.index0],
+              'notAfter': item.stdout,
+              'remainingSeconds': item.stdout | int - ansible_facts.date_time.epoch | int
+            }]          ]
           }}
       loop: "{{ validity_output.results }}"
       loop_control:
